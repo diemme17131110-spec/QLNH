@@ -269,6 +269,56 @@
             <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Visa" width="40" class="me-2">
             <img src="https://cdn-icons-png.flaticon.com/512/217/217425.png" alt="MasterCard" width="40">
           </div>
+document.getElementById('searchBtn').addEventListener('click', function() {
+    var keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+    var items = document.querySelectorAll('.product-item');
+    items.forEach(function(item) {
+      var name = item.querySelector('.name').textContent.toLowerCase();
+      if (name.includes(keyword) || keyword === '') {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('searchBtn').click();
+  });
+   var noResultMsg = document.createElement('p');
+  noResultMsg.textContent = "Không tìm thấy sản phẩm nào.";
+  noResultMsg.style.textAlign = "center";
+  noResultMsg.style.fontSize = "18px";
+  noResultMsg.style.color = "#777";
+  noResultMsg.style.display = "none";
+  productList.after(noResultMsg);
+
+  searchBtn.addEventListener('click', function() {
+    var keyword = searchInput.value.toLowerCase().trim();
+    var items = document.querySelectorAll('.product-item');
+    items.forEach(function(item) {
+      var name = item.querySelector('.name').textContent.toLowerCase();
+      if (name.includes(keyword) || keyword === '') {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    checkNoProduct(); 
+  });
+
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') searchBtn.click();
+  });
+  function checkNoProduct() {
+    var items = document.querySelectorAll('.product-item');
+    var visible = Array.from(items).filter(item => item.style.display !== 'none');
+    if (visible.length === 0) {
+      noResultMsg.style.display = "block";
+    } else {
+      noResultMsg.style.display = "none";
+    }
+  }
         </div>
       </div>
      
