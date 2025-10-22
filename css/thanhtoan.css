@@ -1,0 +1,191 @@
+.fb_iframe_widget iframe {
+        z-index: 1 !important;
+    }
+
+    .listBankWrp{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    .listBankWrp .form-group{
+        border: 1px solid #dedede;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .listBankWrp.deactive_bank{
+        pointer-events:none !important;
+    }
+    .listBankWrp .form-group.active{
+        border: 1px solid #009cf6;
+        background: #f5f5f5;
+    }
+    .form-group.active .resultQr{
+        display: block !important;
+    }
+    @media screen and (max-width: 900px){
+        .listBankWrp .col-12{
+            padding: 0 15px !important;
+        }
+    }
+
+    @media screen and (max-width: 768px){
+        .text-banks-title {
+            display: inline-block;
+            max-width: 45%;
+        }
+        .listBankWrp .form-group{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .deactive_bank .loaderWrp{
+        display: block;
+    }
+    .loaderWrp{
+        display: none;
+    }
+    .loaderWrp .loader {
+        margin-top: 7%;
+        width: 48px;
+        height: 48px;
+        border: 3px solid #FFF;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+    .loaderWrp .loader::after {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: #FF3D00 transparent;
+    }
+    .loaderWrp{
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        bottom: 0;
+        background: #cbcbcbba;
+        top: 0;
+        z-index: 999;
+    }
+    .float-left {
+        float: left;
+    }
+    .float-left label strong {
+        display: block;
+    }
+    .pr-1 {
+        padding-right: 5px;
+    }
+    .float-left input {
+        margin-top: 2px;
+    }
+    .col-4 {
+        float: left;
+        width: 33.33%;
+    }
+    .col-8 {
+        float: left;
+        width: 66.67%;
+    }
+    .col-4, .col-8 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    pb-2, .py-2 {
+        padding-bottom: 0.5rem !important;
+    }
+    .pt-2, .py-2 {
+        padding-top: 0.5rem !important;
+    }
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes rotate {
+        0%   {transform: rotate(0deg)}
+        100%   {transform: rotate(360deg)}
+    }
+
+    @keyframes prixClipFix {
+        0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+        50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+        75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    }
+    .listBank .form-group label{
+        display: block;
+    }
+
+  #payment-online,
+  .hiddenCod {
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    padding: 12px;
+    background: #fff;
+    margin-top: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #payment-online:hover,
+  .hiddenCod:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0,123,255,0.2);
+  }
+
+  .online-box {
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    background: #fafafa;
+  }
+
+  .bank-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .bank-option {
+    flex: 0 0 calc(50% - 10px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .bank-option:hover {
+    border-color: #007bff;
+    background: #eef6ff;
+  }
+
+  .bank-option img {
+    height: 28px;
+    width: auto;
+  }
+
+  .bank-option input {
+    margin-right: 5px;
+  }
