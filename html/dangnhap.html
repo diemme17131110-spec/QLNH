@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập & Đăng ký</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Form Đăng nhập -->
+    <div class="form-box login">
+      <h1>Đăng nhập</h1>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+        <button type="submit">Đăng nhập</button>
+        <p>Chưa có tài khoản? <a href="#register">Đăng ký ngay</a></p>
+      </form>
+    </div>
+
+    <!-- Form Đăng ký -->
+    <div class="form-box register" id="register">
+      <h1>Đăng ký</h1>
+      <form id="registerForm">
+        <input type="text" id="name" placeholder="Họ và tên" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Mật khẩu" required>
+        <button type="submit">Đăng ký</button>
+        <p>Đã có tài khoản? <a href="#">Đăng nhập</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Xử lý Đăng ký
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const name = document.getElementById("name").value;
+
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userPassword", password);
+      localStorage.setItem("userName", name);
+
+      alert("Đăng ký thành công! Giờ bạn có thể đăng nhập.");
+      window.location.hash = ""; // quay lại phần đăng nhập
+    });
+
+    // Xử lý Đăng nhập
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const storedEmail = localStorage.getItem("userEmail");
+      const storedPassword = localStorage.getItem("userPassword");
+
+      if (!storedEmail || !storedPassword) {
+        alert("Bạn chưa có tài khoản. Vui lòng đăng ký trước!");
+      } else if (email === storedEmail && password === storedPassword) {
+        alert("Đăng nhập thành công!");
+        window.location.href = "home.html";
+      } else {
+        alert("Sai email hoặc mật khẩu. Vui lòng thử lại!");
+      }
+    });
+  </script>
+</body>
+</html>
