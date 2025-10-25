@@ -1,0 +1,152 @@
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giỏ Hàng Tái Cấu Trúc</title>
+        <link rel="stylesheet" href="../css/giohang.css">
+    </head>
+    <body>
+
+        <div class="cart-container">
+            <div class="cart-items">
+                <h2>Giỏ hàng của bạn <span id="item-count">(2 sản phẩm)</span></h2>
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng cộng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-body">
+                        <tr class="cart-item">
+                            <td>
+                                <div class="product-info">
+                                    <img src="../img/ĐẦM THẮT DÂY TAY NGẮN - 10F21DREW005(1).jpg" alt="">
+                                    <img src="../img/ĐẦM THẮT DÂY TAY NGẮN - 10F21DREW005(2).jpg" alt="">
+                                        <h3>ĐẦM THẮT DÂY TAY NGẮN - 10F21DREW005</h3>
+                                        <a class="remove-btn">Xóa</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="product-price">499000</td>
+                            <td>
+                                <div class="quantity-control">                  
+                                    <button class="btn-minus">-</button>
+                                    <input type="number" class="item-quantity" value="1" min="1">
+                                    <button class="btn-plus">+</button>
+                                </div>
+                            </td>
+                            <td class="product-total"></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-summary">
+                <h2>Tóm tắt đơn hàng</h2>
+                <div class="summary-row">
+                    <span>Tạm tính</span>
+                    <span id="subtotal-price">697000</span>
+                </div>
+                <div class="summary-row">
+                    <span>Phí vận chuyển</span>
+                    <span>Miễn phí</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>TỔNG CỘNG</span>
+                    <span id="total-price">697000</span>
+                </div>
+                <button class="checkout-btn">TIẾN HÀNH THANH TOÁN</button>
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartBody = document.getElementById('cart-body');
+
+            const updateCart = () => {
+                let subtotal = 0;
+                const items = cartBody.querySelectorAll('.cart-item');
+
+                items.forEach(item => {
+                    const priceElement = item.querySelector('.product-price');
+                    const quantityInput = item.querySelector('.item-quantity');
+                    const totalElement = item.querySelector('.product-total');
+
+                    // ✅ Lấy giá chính xác dù có dấu chấm hoặc ký hiệu ₫
+                    const price = parseFloat(priceElement.textContent.replace(/[^\d]/g, ''));
+                    const quantity = parseInt(quantityInput.value);
+
+                    const itemTotal = price * quantity;
+                    totalElement.textContent = formatCurrency(itemTotal);
+
+                    subtotal += itemTotal;
+                });
+                
+                document.getElementById('item-count').textContent = `(${items.length} sản phẩm)`;
+
+                document.getElementById('subtotal-price').textContent = formatCurrency(subtotal);
+                document.getElementById('total-price').textContent = formatCurrency(subtotal);
+            };
+
+            const formatCurrency = (number) => {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+            };
+
+            const formatInitialPrices = () => {
+                document.querySelectorAll('.product-price, .product-total, #subtotal-price, #total-price').forEach(el => {
+                    const numberValue = parseFloat(el.textContent.replace(/[^\d]/g, ''));
+                    if (!isNaN(numberValue)) {
+                        el.textContent = formatCurrency(numberValue);
+                    }
+                });
+            };
+
+            cartBody.addEventListener('click', (event) => {
+                const target = event.target;
+                const itemRow = target.closest('.cart-item');
+                if (!itemRow) return;
+
+                const quantityInput = itemRow.querySelector('.item-quantity');
+                let quantity = parseInt(quantityInput.value);
+
+                if (target.classList.contains('btn-plus')) {
+                    quantity++;
+                    quantityInput.value = quantity;
+                    updateCart();
+                }
+
+                if (target.classList.contains('btn-minus')) {
+                    if (quantity > 1) {
+                        quantity--;
+                        quantityInput.value = quantity;
+                        updateCart();
+                    }
+                }
+                
+                if (target.classList.contains('remove-btn')) {
+                    itemRow.remove();
+                    updateCart();
+                }
+            });
+            
+            cartBody.addEventListener('change', (event) => {
+                if(event.target.classList.contains('item-quantity')) {
+                    if(parseInt(event.target.value) < 1) {
+                        event.target.value = 1;
+                    }
+                    updateCart();
+                }
+            });
+
+            formatInitialPrices();
+            updateCart();
+        });
+    </script>
+
+    </body>
+    </html>
