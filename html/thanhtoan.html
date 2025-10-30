@@ -338,11 +338,14 @@
     box.style.display = onlineRadio.checked ? "block" : "none";
   }
 
+  const makeQR = (text, size = 300) =>
+    `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}`;
+
   const banks = {
     VCB: { name: "Vietcombank", number: "0123456789", qr: "https://img.vietqr.io/image/VCB-0123456789-compact.png" },
-    ACB: { name: "ACB", number: "9876543210", qr: "https://img.vietqr.io/image/ACB-9876543210-compact.png" },
-    MOMO: { name: "MoMo", number: "0909123456", qr: "https://upload.wikimedia.org/wikipedia/commons/5/53/MoMo_Logo.png" },
-    ZALOPAY: { name: "ZaloPay", number: "012345678", qr: "https://upload.wikimedia.org/wikipedia/commons/8/8b/ZaloPay.png" }
+    ACB: { name: "ACB",        number: "9876543210", qr: "https://img.vietqr.io/image/ACB-9876543210-compact.png" },
+    MOMO: { name: "MoMo",      number: "0909123456", qr: makeQR("PAY|MOMO|0909123456|Shop Tran Trung Kien") },
+    ZALOPAY: { name: "ZaloPay",number: "012345678",  qr: makeQR("PAY|ZALOPAY|012345678|Shop Tran Trung Kien") }
   };
 
   document.addEventListener("change", (e) => {
