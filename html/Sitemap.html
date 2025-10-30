@@ -9,8 +9,8 @@
 <body>
     <div class="top-bar">
     <div class="auth-cart">
-      <a href="#" class="login">Đăng nhập</a>
-      <a href="#" class="cart">Giỏ hàng</a>
+      <a href="../html/dangnhap.html" class="login">Đăng nhập</a>
+      <a href="../html/giohang.html" class="cart">Giỏ hàng</a>
     </div>
   </div>
   <!-- ===== THANH NAM / NỮ ===== -->
@@ -31,12 +31,10 @@
         <a class="active" href="#">SẢN PHẨM</a>
         <a href="#">BỘ SƯU TẬP</a>
       </nav>
-
-      <form class="search-box">
-        <input type="text" placeholder="Tìm kiếm...">
-        <button>🔍</button>
-      </form>
-    </div>
+     <form class="search-box" action="../html/timkiem.html" method="get">
+  <input type="text" name="q" placeholder="Tìm kiếm...">
+  <button type="submit">🔍</button>
+</form>
   </header>
 
   <!-- ===== TIÊU ĐỀ ===== -->
@@ -109,6 +107,15 @@
         <p class="price">249.000₫</p>
       </div>
       <!--NAM-->
+      <div class="product-item nam">
+        <a href="../html/ÁO KHOÁC NAM BASIC AK-0005.html">
+          <img src="../img/Áo Khoác Nam Basic AK-0005(4).jpg" alt="Áo khoác" width="200">
+          <h3>Áo Khoác Nam Basic AK-0005</h3>
+          <p class="price">540.000₫ <span class="old-price">600.000₫</span></p>
+        </a>
+      </div>
+
+
       <div class="product-item nam">
         <img src="../img/Áo Khoác Nam Basic AK-0005(1).jpg">
         <h3>Áo Khoác Nam Basic AK-0005</h3>
@@ -289,6 +296,102 @@
     });
 
     hienTheo("nam");
+  
+function removeVietnameseTones(str) {
+  return str
+    .normalize("NFD") // tách chữ và dấu
+    .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+}
+
+document.getElementById('searchBtn').addEventListener('click', function() {
+  var keyword = removeVietnameseTones(document.getElementById('searchInput').value.toLowerCase().trim());
+  var items = document.querySelectorAll('.product-item');
+  var found = false;
+
+  items.forEach(function(item) {
+    var name = removeVietnameseTones(item.querySelector('h3').textContent.toLowerCase());
+    if (name.includes(keyword) || keyword === '') {
+      item.style.display = '';
+      found = true;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  // Hiển thị thông báo nếu không tìm thấy
+  var msg = document.getElementById('noResult');
+  if (!found && keyword !== '') {
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.id = 'noResult';
+      msg.textContent = 'Không tìm thấy sản phẩm phù hợp.';
+      msg.style.textAlign = 'center';
+      msg.style.color = '#888';
+      msg.style.marginTop = '20px';
+      document.querySelector('.product-container').appendChild(msg);
+    }
+  } else if (msg) {
+    msg.remove();
+  }
+});
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('searchBtn').click();
+  }
+});
+// ==== GỢI Ý TỪ KHÓA ====
+const input = document.getElementById('searchInput');
+const suggestionBox = document.getElementById('suggestions');
+
+// Lấy danh sách tên sản phẩm từ HTML
+const productNames = Array.from(document.querySelectorAll('.product-item h3'))
+  .map(h3 => h3.textContent.trim());
+
+input.addEventListener('input', function () {
+  const keyword = removeVietnameseTones(this.value.toLowerCase().trim());
+  suggestionBox.innerHTML = '';
+
+  if (keyword === '') {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  // Lọc sản phẩm chứa từ khóa
+  const filtered = productNames.filter(name =>
+    removeVietnameseTones(name.toLowerCase()).includes(keyword)
+  );
+
+  if (filtered.length === 0) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  filtered.slice(0, 6).forEach(name => { // Giới hạn 6 gợi ý
+    const li = document.createElement('li');
+    li.textContent = name;
+    li.addEventListener('click', () => {
+      input.value = name;
+      suggestionBox.style.display = 'none';
+      document.getElementById('searchBtn').click(); // tự tìm luôn
+    });
+    suggestionBox.appendChild(li);
+  });
+
+  suggestionBox.style.display = 'block';
+});
+
+// Ẩn gợi ý khi click ra ngoài
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-box')) {
+    suggestionBox.style.display = 'none';
+  }
+});
+
+</script>
   </script>
 
 
